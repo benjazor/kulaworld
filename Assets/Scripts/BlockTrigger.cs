@@ -15,6 +15,17 @@ public class BlockTrigger : MonoBehaviour
         }
     }
 
+    // When somthing stays the block
+    private void OnTriggerStay(Collider other)
+    {
+        // Check if colider is a TriggerBlock
+        if (other.tag == "TriggerBlock")
+        {
+            // Set TriggerBlock status to true
+            other.GetComponent<Trigger>().status = true;
+        }
+    }
+
     // When somthing exits the block
     private void OnTriggerExit(Collider other)
     {

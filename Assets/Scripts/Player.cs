@@ -17,8 +17,8 @@ public class Player : MonoBehaviour
     private GameObject TriggerE;
 
     // Movement varibables
-    float lastMove = 0; // Time of the last movement input
-    float movementDuration = 0.4f; // Movement duration in seconds
+    private float lastMove = 0; // Time of the last movement input
+    private float movementDuration = 0.2f; // Movement duration in seconds
 
     // Execute when a player is created
     private void Start()
@@ -29,12 +29,14 @@ public class Player : MonoBehaviour
         TriggerC = GameObject.Instantiate(TriggerObject, new Vector3(0, 0, 0), Quaternion.identity);
         TriggerD = GameObject.Instantiate(TriggerObject, new Vector3(0, 0, 0), Quaternion.identity);
         TriggerE = GameObject.Instantiate(TriggerObject, new Vector3(0, 0, 0), Quaternion.identity);
+
         UpdateTriggers();
     }
 
-     // FixedUpdate is called once per frame
-    void FixedUpdate()
+    // FixedUpdate is called once per frame
+    private void FixedUpdate()
     {
+
         // Check for input when the player isn't moving
         if (!Moving()) { MoveInput(); }
 
@@ -43,10 +45,10 @@ public class Player : MonoBehaviour
     }
 
     // Boolean value telling if the player is moving or not
-    bool Moving() => (Time.time < (lastMove + movementDuration));
+    private bool Moving() => (Time.time < (lastMove + movementDuration));
 
     // Execute player movement if he is not moving.
-    void MoveInput()
+    private void MoveInput()
     {
         if (Input.GetKey("z"))
         {
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Move(int direction)
+    private void Move(int direction)
     {
         // Record the time of movement
         lastMove = Time.time;
@@ -83,7 +85,8 @@ public class Player : MonoBehaviour
                 // Make a rotation when facing a wall
                 if (TriggerA.GetComponent<Trigger>().status)
                 {
-                    transform.Rotate(new Vector3(-90, 0, 0));
+                    //transform.Rotate(new Vector3(-90, 0, 0));
+                    StartCoroutine(SmoothRotation(new Vector3(-90, 0, 0)));
                 }
                 // Simply move forward
                 else if (TriggerB.GetComponent<Trigger>().status)
@@ -94,8 +97,10 @@ public class Player : MonoBehaviour
                 // Move to another face of the block
                 else if (!(TriggerD.GetComponent<Trigger>().status || TriggerE.GetComponent<Trigger>().status))
                 {
-                    transform.position += transform.forward - transform.up;
-                    transform.Rotate(new Vector3(90, 0, 0));
+                    //transform.Rotate(new Vector3(90, 0, 0));
+                    Vector3 endPos = transform.position + transform.forward - transform.up;
+                    StartCoroutine(SmoothMovement(new Vector3(0, 0, Mathf.PI * 2f / 4f)));
+                    StartCoroutine(SmoothRotation(new Vector3(90, 0, 0)));
                 }
                 break;
             case 2: // Rotate Left
@@ -115,31 +120,43 @@ public class Player : MonoBehaviour
                 }
                 break;
         }
+        StartCoroutine(FixPosition());
         UpdateTriggers();
     }
 
-    IEnumerator SmoothMovement(Vector3 vector)
+    private IEnumerator SmoothMovement(Vector3 vector)
     {
         for (int i = 0; i < 10; i++)
         {
-            transform.Translate(vector / 10);
+            transform.Translate(vector / 10f);
+            UpdateTriggers();
             yield return new WaitForSeconds(movementDuration / 15);
         }
-        UpdateTriggers();
     }
 
-    IEnumerator SmoothRotation(Vector3 vector)
+    private IEnumerator FixPosition()
+    {
+        yield return new WaitForSeconds(movementDuration);
+        Vector3 vec = transform.position;
+        vec.x = Mathf.RoundToInt(vec.x);
+        vec.y = Mathf.RoundToInt(vec.y);
+        vec.z = Mathf.RoundToInt(vec.z);
+        transform.position = vec;
+
+    }
+
+    private IEnumerator SmoothRotation(Vector3 vector)
     {
         for (int i = 0; i < 10; i++)
         {
-            transform.Rotate(vector / 10);
+            transform.Rotate(vector / 10f);
+            UpdateTriggers();
             yield return new WaitForSeconds(movementDuration / 15);
         }
-        UpdateTriggers();
     }
 
     // Move the triggers with the player
-    void UpdateTriggers()
+    private void UpdateTriggers()
     {
         TriggerA.transform.position = transform.position + transform.forward;
         TriggerB.transform.position = transform.position + transform.forward - transform.up;
@@ -148,7 +165,7 @@ public class Player : MonoBehaviour
         TriggerD.transform.position = transform.position - transform.right - transform.up;
     }
 
-    IEnumerator Jump(int i)
+    private IEnumerator Jump(int i)
     {
         // DEBUG
         //print(TriggerC.GetComponent<Trigger>().status.ToString() + " " + TriggerC.transform.position.ToString());

@@ -8,12 +8,12 @@ public class LevelLoader : MonoBehaviour
     public GameObject Block;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         LoadLevel();
     }
 
-    public void LoadLevel()
+    private void LoadLevel()
     {
         // Path of level file
         string levelPath = "Assets/Levels/test.lvl";
