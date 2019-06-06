@@ -1,8 +1,13 @@
 ﻿<Properties StartupConfiguration="{95401F31-8A18-07CF-EF7F-DBDCF0726E58}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MainMenu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/Trigger.cs">
     <Files>
-      <File FileName="Assets/Scripts/Player.cs" Line="110" Column="36" />
-      <File FileName="Assets/Scripts/MainMenu.cs" Line="4" Column="12" />
+      <File FileName="Assets/Scripts/StaticValues.cs" Line="7" Column="5" />
+      <File FileName="Assets/Scripts/MainMenu/MainMenu.cs" Line="11" Column="37" />
+      <File FileName="Assets/Scripts/Game/Loader.cs" Line="67" Column="31" />
+      <File FileName="Assets/Scripts/Game/Player.cs" Line="42" Column="1" />
+      <File FileName="Assets/Scripts/Game/Trigger.cs" Line="14" Column="2" />
+      <File FileName="Assets/Scripts/Game/BlockTrigger.cs" Line="40" Column="1" />
+      <File FileName="Assets/Scripts/Game/Item.cs" Line="13" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +15,10 @@
           <Node name="kulaworld" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="MainMenu.cs" selected="True" />
+                <Node name="Game" expanded="True">
+                  <Node name="Trigger.cs" selected="True" />
+                </Node>
+                <Node name="MainMenu" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -20,7 +28,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9da4c296-e431-47d4-9d10-73cb7725736c" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f7c34a1d-02c4-4b26-982c-2d3358e0252f" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
