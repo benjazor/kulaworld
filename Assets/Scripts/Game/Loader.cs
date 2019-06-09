@@ -5,18 +5,30 @@ using UnityEngine;
 
 public class Loader : MonoBehaviour
 {
-    static public string level;
     public GameObject Player;
     public GameObject Block;
     public GameObject Item;
+    public GameObject Coin;
+    public GameObject BlueCoin;
+    public GameObject RedGem;
+    public GameObject GreenGem;
+    public GameObject BlueGem;
+    public GameObject KeyItem;
+    public GameObject ExitItem;
+
+
+    static public GameObject Exit;
+    static public float duration;
+    static public Vector3 spawn;
+    static public int keys = 0;
+    static public string next;
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
-        if (string.IsNullOrEmpty(level))
+        if (string.IsNullOrEmpty(StaticValues.level))
         {
-
-            LoadLevel("test");
+            LoadLevel("8");
         }
         else
         {
@@ -47,6 +59,7 @@ public class Loader : MonoBehaviour
     }
     */
 
+    // Load the selected level file
     private void LoadLevel(string lvl)
     {
         // Path of level file
@@ -63,13 +76,18 @@ public class Loader : MonoBehaviour
 
             switch (data[0])
             {
-                // Create the player
+                // Get the level duration (in seconds)
+                case "Duration":
+                    duration = float.Parse(data[1]);
+                    break;
+                // Get the next level
+                case "Next":
+                    next = data[1];
+                    break;
+                // Get the spawn point and move the player to it
                 case "Player":
-                    Instantiate(
-                        Player,
-                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
-                        Quaternion.identity
-                        );
+                    spawn = new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3]));
+                    Player.transform.position = spawn;
                     break;
                 // Create a Block
                 case "Block":
@@ -83,6 +101,63 @@ public class Loader : MonoBehaviour
                 case "Item":
                     Instantiate(
                         Item,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create a Coin
+                case "Coin":
+                    Instantiate(
+                        Coin,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create a Blue Coin
+                case "BlueCoin":
+                    Instantiate(
+                        BlueCoin,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create a Red Gem
+                case "RedGem":
+                    Instantiate(
+                        RedGem,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create a Green Gem
+                case "GreenGem":
+                    Instantiate(
+                        GreenGem,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create a Blue Gem
+                case "BlueGem":
+                    Instantiate(
+                        BlueGem,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create a Key
+                case "Key":
+                    keys += 1;
+                    Instantiate(
+                        KeyItem,
+                        new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
+                        Quaternion.identity
+                        );
+                    break;
+                // Create an Exit
+                case "Exit":
+                    Exit = Instantiate(
+                        ExitItem,
                         new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3])),
                         Quaternion.identity
                         );

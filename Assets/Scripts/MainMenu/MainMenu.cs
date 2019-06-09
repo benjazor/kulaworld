@@ -5,11 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public string level;
+
     public void PlayGame()
     {
-        //print("TEST");
-        StaticValues.level = "test";
+        StaticValues.level = "1";
         SceneManager.LoadScene(1);
+    }
+
+    public void PlaySelected()
+    {
+        SceneManager.LoadScene(level);
     }
 
     public void ExitGame()
